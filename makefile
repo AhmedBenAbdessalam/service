@@ -25,8 +25,21 @@ SALES_IMAGE     := $(BASE_IMAGE_NAME)/$(SALES_APP):$(VERSION)
 METRICS_IMAGE   := $(BASE_IMAGE_NAME)/metrics:$(VERSION)
 AUTH_IMAGE      := $(BASE_IMAGE_NAME)/$(AUTH_APP):$(VERSION)
 
+# ==============================================================================
+# Building containers
+
+build: sales
+
+sales:
+	docker build \
+		-f zarf/docker/dockerfile.sales \
+		-t $(SALES_IMAGE) \
+		--build-arg BUILD_TAG=$(VERSION) \
+		--build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+		.
+
 run:
-	go run apis/services/sales/main.go | go run apis/tooling/logfmt/main.go
+	CGO_ENABLED=0 go run apis/services/sales/main.go | go run apis/tooling/logfmt/main.go
 
 dev-up:
 	kind create cluster \
