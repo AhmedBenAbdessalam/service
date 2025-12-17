@@ -7,8 +7,8 @@ nodes:
       - containerPort: 3000
         hostPort: 3000
       # Sales-Api debug
-      - containerPort: 3010
-        hostPort: 3010
+      - containerPort: 3020
+        hostPort: 3020
       # Metrics
       - containerPort: 4000
         hostPort: 4000

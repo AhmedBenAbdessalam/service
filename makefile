@@ -41,6 +41,9 @@ sales:
 run:
 	CGO_ENABLED=0 go run apis/services/sales/main.go | go run apis/tooling/logfmt/main.go
 
+run-help:
+	go run apis/services/sales/main.go --help
+
 dev-up:
 	kind create cluster \
 		--image $(KIND) \
@@ -86,6 +89,15 @@ dev-describe-deployment:
 
 dev-describe-sales:
 	kubectl describe pod --namespace=$(NAMESPACE) -l app=$(SALES_APP)
+
+# ==============================================================================
+# Metrics and Tracing
+
+metrics:
+	expvarmon -ports="localhost:3020" -vars="build,requests,goroutines,errors,panics,mem:memstats.HeapAlloc,mem:memstats.HeapSys,mem:memstats.Sys"
+
+statsviz:
+	wslview http://localhost:3020/debug/statsviz/ 
 
 # ==============================================================================
 # Modules support
