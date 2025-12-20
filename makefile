@@ -44,9 +44,14 @@ run:
 run-help:
 	go run apis/services/sales/main.go --help
 
-curl:
-	curl -X GET http://localhost:3000/liveness
-	curl -X GET http://localhost:3000/readiness
+curl-live:
+	curl -il -X GET http://localhost:3000/liveness
+
+curl-ready:
+	curl -il -X GET http://localhost:3000/readiness
+
+curl-testerror:
+	curl -il -X GET http://localhost:3000/testerror
 
 dev-up:
 	kind create cluster \
