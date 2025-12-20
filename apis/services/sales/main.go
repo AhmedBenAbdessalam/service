@@ -17,6 +17,7 @@ import (
 	"github.com/AhmedBenAbdessalam/service/apis/services/api/debug"
 	"github.com/AhmedBenAbdessalam/service/apis/services/sales/mux"
 	"github.com/AhmedBenAbdessalam/service/foundation/logger"
+	"github.com/AhmedBenAbdessalam/service/foundation/web"
 )
 
 var tag = "develop"
@@ -31,7 +32,7 @@ func main() {
 	}
 
 	traceIDFn := func(ctx context.Context) string {
-		return "" //web.GetTraceID(ctx)
+		return web.GetTraceID(ctx)
 	}
 
 	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "SALES", traceIDFn, events)
@@ -114,7 +115,7 @@ func run(ctx context.Context, log *logger.Logger) error {
 
 	api := http.Server{
 		Addr:         cfg.Web.APIHost,
-		Handler:      mux.WebAPI(shutdown),
+		Handler:      mux.WebAPI(log, shutdown),
 		ReadTimeout:  cfg.Web.ReadTimeout,
 		WriteTimeout: cfg.Web.WriteTimeout,
 		IdleTimeout:  cfg.Web.IdleTimeout,
