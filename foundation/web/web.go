@@ -35,6 +35,11 @@ func (a *App) HandleFunc(pattern string, handler Handler, mw ...MidHandler) {
 	handler = wrapMiddleware(mw, handler)
 	handler = wrapMiddleware(a.mw, handler)
 
+	a.HandleFuncNoMiddleware(pattern, handler)
+}
+
+func (a *App) HandleFuncNoMiddleware(pattern string, handler Handler, mw ...MidHandler) {
+
 	h := func(w http.ResponseWriter, r *http.Request) {
 		v := Values{
 			TraceID: uuid.NewString(),
