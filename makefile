@@ -53,6 +53,9 @@ curl-ready:
 curl-testerror:
 	curl -il -X GET http://localhost:3000/testerror
 
+curl-testpanic:
+	curl -il -X GET http://localhost:3000/testpanic
+
 dev-up:
 	kind create cluster \
 		--image $(KIND) \
