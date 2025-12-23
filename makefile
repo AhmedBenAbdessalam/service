@@ -38,6 +38,12 @@ sales:
 		--build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
 		.
 
+
+# RSA Keys
+# To generate a private/public key PEM file.
+# $ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+# $ openssl rsa -pubout -in private.pem -out public.pem
+
 run:
 	CGO_ENABLED=0 go run apis/services/sales/main.go | go run apis/tooling/logfmt/main.go
 
@@ -55,6 +61,9 @@ curl-testerror:
 
 curl-testpanic:
 	curl -il -X GET http://localhost:3000/testpanic
+
+admin:
+	go run apis/tooling/admin/main.go
 
 dev-up:
 	kind create cluster \
